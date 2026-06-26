@@ -1,1 +1,5 @@
-<footer class="site-footer"><div class="wrap footer-inner"><span>&copy; <?php echo esc_html(date('Y')); ?> <?php bloginfo('name'); ?></span><span>Website en design gerealiseerd door <a href="https://blazeforce.nl/">BlazeForce</a>.</span></div></footer><?php wp_footer(); ?></body></html>
+<footer class="site-footer"><div class="wrap footer-inner"><span>&copy; <?php echo esc_html(date('Y')); ?> <?php bloginfo('name'); ?></span><span>Website en design gerealiseerd door <a href="https://blazeforce.nl/">BlazeForce</a>.</span><nav class="footer-legal" aria-label="Juridische links">
+<a href="<?php echo esc_url(site_url_i18n('/privacy-cookies/', '/en/privacy-cookies/')); ?>"><?php echo esc_html(site_t('Privacy & cookies', 'Privacy & cookies')); ?></a>
+<a href="<?php echo esc_url(site_url_i18n('/algemene-voorwaarden/', '/en/terms-and-conditions/')); ?>"><?php echo esc_html(site_t('Algemene voorwaarden', 'Terms and conditions')); ?></a>
+<a href="<?php echo esc_url(site_url_i18n('/toegankelijkheid/', '/en/accessibility/')); ?>"><?php echo esc_html(site_t('Toegankelijkheid', 'Accessibility')); ?></a>
+</nav></div></footer><?php wp_footer(); ?></body></html>
