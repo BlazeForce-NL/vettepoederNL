@@ -19,3 +19,5 @@ function site_language_switcher(): void {
     }
     echo '<a href="' . esc_url(home_url('/')) . '">NL</a><a href="' . esc_url(home_url('/en/')) . '">EN</a>';
 }
+
+require_once get_template_directory() . '/inc/premium-framework.php';
