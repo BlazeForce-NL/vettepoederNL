@@ -1,0 +1,1 @@
+<?php get_header(); ?><main class="content"><h1>Pagina niet gevonden</h1><p>Deze pagina bestaat niet of is verplaatst.</p><p><a class="button" href="<?php echo esc_url(home_url('/')); ?>">Terug naar home</a></p></main><?php get_footer(); ?>

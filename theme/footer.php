@@ -1,0 +1,1 @@
+<footer class="site-footer"><div class="wrap footer-inner"><span>&copy; <?php echo esc_html(date('Y')); ?> <?php bloginfo('name'); ?></span><span>Website en design gerealiseerd door <a href="https://blazeforce.nl/">BlazeForce</a>.</span></div></footer><?php wp_footer(); ?></body></html>

@@ -1,0 +1,17 @@
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+dist/
+tmp/
+output/
+__pycache__/
+*.zip
+*.log
+.env
+.env.*
+*.pem
+*.key
+*.crt
+uploads/
+wp-content/uploads/
