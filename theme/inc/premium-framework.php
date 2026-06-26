@@ -29,6 +29,23 @@ add_action('init', static function (): void {
         'supports' => ['title', 'editor', 'excerpt', 'thumbnail', 'revisions', 'custom-fields'],
         'taxonomies' => ['category', 'post_tag'],
     ]);
+
+    register_post_type('photo_album', [
+        'labels' => [
+            'name' => 'Fotoalbums',
+            'singular_name' => 'Fotoalbum',
+            'add_new_item' => 'Nieuw fotoalbum toevoegen',
+            'edit_item' => 'Fotoalbum bewerken',
+            'menu_name' => 'Fotoalbums',
+        ],
+        'public' => true,
+        'menu_icon' => 'dashicons-format-gallery',
+        'has_archive' => 'fotoalbums',
+        'rewrite' => ['slug' => 'fotoalbums'],
+        'show_in_rest' => true,
+        'supports' => ['title', 'editor', 'excerpt', 'thumbnail', 'revisions', 'custom-fields'],
+        'taxonomies' => ['category', 'post_tag'],
+    ]);
 });
 
 function site_reading_time(?int $post_id = null): string {
@@ -55,6 +72,43 @@ add_shortcode('premium_gallery', static function (array $atts = []): string {
         if ($caption) { $html .= '<span>' . esc_html($caption) . '</span>'; }
         $html .= '</a>';
     }
+    $html .= '</div>';
+    return $html;
+});
+
+function site_album_image_ids(?int $post_id = null): array {
+    $post_id = $post_id ?: get_the_ID();
+    $raw = (string) (get_post_meta($post_id, '_album_image_ids', true) ?: get_post_meta($post_id, 'album_image_ids', true));
+    if (!$raw) { return []; }
+    return array_values(array_filter(array_map('absint', preg_split('/[\s,]+/', $raw))));
+}
+
+function site_album_gallery(?int $post_id = null): string {
+    $ids = site_album_image_ids($post_id);
+    if (!$ids) { return ''; }
+    return do_shortcode('[premium_gallery ids="' . esc_attr(implode(',', $ids)) . '" columns="3"]');
+}
+
+add_shortcode('photo_album_grid', static function (array $atts = []): string {
+    $atts = shortcode_atts(['limit' => '6'], $atts, 'photo_album_grid');
+    $query = new WP_Query([
+        'post_type' => 'photo_album',
+        'posts_per_page' => max(1, min(24, absint($atts['limit']))),
+        'post_status' => 'publish',
+    ]);
+    if (!$query->have_posts()) {
+        return '<p class="pf-muted">Nog geen fotoalbums gevonden.</p>';
+    }
+    $html = '<div class="pf-album-grid">';
+    while ($query->have_posts()) {
+        $query->the_post();
+        $html .= '<a class="pf-album-card" href="' . esc_url(get_permalink()) . '">';
+        if (has_post_thumbnail()) {
+            $html .= get_the_post_thumbnail(get_the_ID(), 'large', ['loading' => 'lazy']);
+        }
+        $html .= '<span>Fotoalbum</span><h3>' . esc_html(get_the_title()) . '</h3><p>' . esc_html(wp_trim_words(get_the_excerpt(), 18)) . '</p></a>';
+    }
+    wp_reset_postdata();
     $html .= '</div>';
     return $html;
 });
